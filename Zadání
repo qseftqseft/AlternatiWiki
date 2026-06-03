@@ -1,0 +1,13 @@
+WW2 - Závěrečný projekt - 2. pololetí
+
+
+Alternativní Wikipedia stránky
+
+  * Aplikace bude: 1. hledat na Wikipedii a zobrazovat výsledky
+                   2. zobrazovat stránky na Wikipedii, ve světlém
+                      i tmavém režimu, toto nasavení bude možno
+                      uložit do prohlížeče.
+                   3. využívat veřejně dostupnou Wikipedia API
+                   4. nabízet různé varianty fontů, velikostí
+                      a barev, které také budou uloženy v prohlížeči
+                   5. vybrat a uložit text z článků
