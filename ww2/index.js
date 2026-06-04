@@ -42,4 +42,5 @@ clr.addEventListener('click', function() {
     location.reload();
 });
 
+
 set();
