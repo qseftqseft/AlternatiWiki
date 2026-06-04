@@ -25,13 +25,14 @@ window.addEventListener('DOMContentLoaded', async function(e) {
         id.append("id", params.id);
         
         if(!params.wiki){
-            window.location.href = window.location.href + '&wiki=en.wikipedia.org/w';
+            if(!window.location.href.includes('wiki='))
+                window.location.href = window.location.href + '&wiki=en.wikipedia.org/w';
+            
         }
                 
         const resp = await fetch('https://' + params.wiki + '/api.php?action=parse&format=json&page=' + id.toString().split('id=')[1] + '&formatversion=2&origin=*');
         const r = await resp.json();
         
-        console.log(r);
         
         if(r.error){
             alert(r.error.info);
@@ -63,10 +64,17 @@ window.addEventListener('DOMContentLoaded', async function(e) {
         let hrefs = document.querySelectorAll('a');
         for(let i of hrefs)
         {
-            if( (i.href.includes('/wiki/') && i.href.split('/wiki/')[0].replace('http://', "").replace('file://', "").replace('https://', "").length < 1) || i.href.includes(params.wiki) && !i.href.includes('page.html?id='))
+            if( ((i.href.includes('/wiki/') && (i.href.split('/wiki/')[0].replace('http://', "").replace('file://', "").replace('https://', "") == location.hostname) )) || (i.href.includes(params.wiki) && !i.href.includes('page.html?id=')))
             {
+                let hre = i.href.split('#')[1] && i.href.split('#')[1].split('&')[0];
+                i.href = i.href.split('#')[0];
+                
                 i.href =  window.location.href.split('?id=')[0] + '?id=' + (i.href.split('/wiki/')[1] || i.href.split('title=')[1]) + '&wiki=' + params.wiki;
                 i.href = i.href.replace('file://' + params.wiki + '/index.php?title=', window.location.href.split('?id=')[0] + '?id=');
+                
+                
+                if(hre) i.href = i.href + '#' + hre;
+                
                 
                 if( i.classList.contains('mw-kartographer-map') )
                 {
@@ -76,7 +84,7 @@ window.addEventListener('DOMContentLoaded', async function(e) {
                 {
                     getimghrefs();
                     async function getimghrefs(){
-                        const desp = await fetch('https://' + params.wiki + '/api.php?format=json&action=query&prop=imageinfo&iiprop=url&titles='  + i.href.split('id=')[1].split('&')[0] + '&origin=*' );
+                        const desp = await fetch('https://' + params.wiki + '/api.php?format=json&action=query&prop=imageinfo&iiprop=url&titles='  + i.href.split('id=')[1].split('&')[0].split('#')[0] + '&origin=*' );
                         const d = await desp.json();
                         
                         if(d.query.pages[Object.keys(d.query.pages)[0]].imageinfo)
@@ -125,7 +133,12 @@ window.addEventListener('DOMContentLoaded', async function(e) {
     tit.href='index.html?wiki=' + params.wiki;
     tit.style.color = fgcolor;
     
-    
+    if(window.location.href.includes('#'))
+    {
+        console.log(decodeURIComponent((window.location.href.split('#')[1] + "").replace(/\+/g, '%20')));
+        
+        document.getElementById(decodeURIComponent((window.location.href.split('#')[1] + "").replace(/\+/g, '%20'))).scrollIntoView();
+    }
     
 });
 
