@@ -114,6 +114,8 @@ window.addEventListener('DOMContentLoaded', async function(e) {
             }
         }
         
+        
+        
         let wiki = document.querySelector('#wiki');
         wiki.value = params.wiki;
         

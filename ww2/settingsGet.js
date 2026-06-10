@@ -62,6 +62,12 @@ function set(){
                 i.style.background = shadeColor(standardize_color(i.style.background), shading);
             } catch(e){console.log(e); console.log(i.style.background);}
         }
+        if(i.style.backgroundColor)
+        {
+            try{
+                i.style.backgroundColor = shadeColor(standardize_color(i.style.backgroundColor), shading);
+            } catch(e){console.log(e); console.log(i.style.backgroundColor);}
+        }
     }
     
     let tables = document.querySelectorAll('table');
